@@ -61,6 +61,8 @@ class Box:
         self.sense_key(3)
 
     # new functions
+    def step(self):
+        self.display.coords(self.id, self.box_x, self.box_y)
 
 
 class PlayerBox(Box):
@@ -68,19 +70,42 @@ class PlayerBox(Box):
     def step(self):
         if not self.on_platform:
             self.vel_y += 100 * self.step_size
-            print(self.vel_y)
+            # print(self.vel_y)
             self.box_y_prev = self.box_y
             self.box_y += self.vel_y * self.step_size
-        print(self.box_y)
+        # print(self.box_y)
 
         for platform in self.platforms:
             if platform.is_collision():
                 platform.do_collision()
 
-        self.display.coords(self.id, self.box_x, self.box_y)
+        super().step()
 
 
 class NpcBox(Box):
 
+    def __init__(self, display, step_size):
+        super().__init__(display, step_size)
+
+        self.box_y = 100
+        self.box_x = 100
+
+        self.direction = 1
+        self.range = 100
+        self.start = self.box_x
+        self.end = self.box_x + self.range
+
     def step(self):
-        pass
+
+        period = 10
+
+        if self.box_x > self.end:
+            self.direction = -1
+            print("reverse to the left")
+        if self.box_x < self.start:
+            self.direction = 1
+            print("reverse to the right")
+
+        self.box_x += (self.range / period) * self.direction
+
+        super().step()
