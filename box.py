@@ -97,14 +97,14 @@ class NpcBox(Box):
 
     def step(self):
 
-        period = 10
+        period = 50
 
         if self.box_x > self.end:
             self.direction = -1
-            print("reverse to the left")
+            # print("reverse to the left")
         if self.box_x < self.start:
             self.direction = 1
-            print("reverse to the right")
+            # print("reverse to the right")
 
         self.box_x += (self.range / period) * self.direction
 
