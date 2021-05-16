@@ -1,5 +1,6 @@
 from tkinter import *
 from box import PlayerBox, NpcBox
+from bar import Bar
 
 step_time = 10  # milliseconds
 
@@ -43,5 +44,8 @@ start_button.place(anchor="se",
                    x=display["width"],
                    y=display["height"]
                    )
+
+health_bar = Bar(display, posx=10, posy=10, width=200, height=30)
+health_bar.set_progress(0.5)
 
 master.mainloop()
