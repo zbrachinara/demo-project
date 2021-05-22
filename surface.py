@@ -25,3 +25,14 @@ class Platform:
         self.box.vel_y = 0
         self.box.box_y = self.pos_y - 1
         self.box.on_platform = True
+
+
+class FloorPlatform(Platform):
+
+    def do_collision(self):
+
+        self.box.box_x = 250
+        self.box.box_y = 25
+        self.box.vel_y = 0
+
+        self.box.health -= 25

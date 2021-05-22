@@ -1,5 +1,5 @@
 from PIL import Image, ImageTk
-from surface import Platform
+from surface import Platform, FloorPlatform
 
 
 class Box:
@@ -26,7 +26,7 @@ class Box:
         self.platforms.append(Platform(display, 50, 75, self, length=300))
         self.platforms.append(Platform(display, 100, 100, self))
         self.platforms.append(Platform(display, 100, 200, self))
-        self.platforms.append(Platform(display, 0, 500, self, length=500))
+        self.platforms.append(FloorPlatform(display, 0, 500, self, length=500))
 
     def sense_key(self, type):
         global box_x
@@ -67,6 +67,13 @@ class Box:
 
 class PlayerBox(Box):
 
+    def __init__(self, display, step_size):
+        super().__init__(display, step_size)
+
+        self.health = 100
+        self.max_health = 100
+        self.health_bar = None
+
     def step(self):
         if not self.on_platform:
             self.vel_y += 100 * self.step_size
@@ -78,6 +85,14 @@ class PlayerBox(Box):
         for platform in self.platforms:
             if platform.is_collision():
                 platform.do_collision()
+
+        self.health_bar.set_progress( self.health / self.max_health )
+
+        if self.health == 0:
+            self.quit_button.place(anchor="se",
+                                  x=int(self.display["width"]) - 100,
+                                  y=self.display["height"]
+                                  )
 
         super().step()
 
